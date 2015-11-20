@@ -1,0 +1,83 @@
+$cubicBezier : cubic-bezier(0.075, 0.82, 0.165, 1);
+
+.csslb { //CSS Lightbox
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1337;
+    background: rgba(#000, .75);
+    opacity: 0;
+    visibility: hidden;
+    //3D effect
+    //perspective: 2000px;
+    transition: .25s $cubicBezier;
+    &::before {
+        position: absolute;
+        top: 50%; left: 50%;
+        z-index: 0;
+        padding: .5em 1em;
+        background: black;
+        opacity: 0;
+        transform: translate(-50%,-50%);
+        color: white;
+        text-transform: uppercase;
+        content: "loading…";
+    }
+    .csslb-effect {
+        position: absolute;
+        top: 5%; left: 5%; right: 5%; bottom: 5%;
+        z-index: 1;
+        opacity: 0;
+        transform: scale(.8);
+        //3D effect
+        //transform: translateY(-10%) scale(.8) rotateX(15deg);
+    }
+    .csslb-img-container {
+        display: none; //for lazy loading
+    }
+    .csslb-img {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: center / contain no-repeat;
+    }
+}
+
+[data-action="csslb"]:focus ~ .csslb {
+    opacity: 1;
+    visibility: visible;
+    &::before {
+        opacity: 1;
+        transition: opacity .75s $cubicBezier .25s;
+    }
+    .csslb-effect {
+        opacity: 1;
+        transform: scale(1);
+        //3D effect
+        //transform: translateY(0) scale(1) rotateX(0);
+        transition: .75s $cubicBezier;
+    }
+    .csslb-img-container {
+        display: block;
+    }
+}
+
+/* DEMO */
+a {
+    display: block;
+    width: 500px;
+    margin: auto;
+    border: .5em solid rgba(#fff, .25);
+    transition: border-color .5s $cubicBezier;
+    &:hover, &:focus {
+        border-color: white;
+    }
+    img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+    }
+}
+
+/* MISC */
+html, body { height: 100%; }
+body { display: flex; background: #777; }
+a { color: inherit; }
